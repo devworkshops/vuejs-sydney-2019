@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Hello, World!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app" class="container">
+        <h1>{{ title }}</h1>
+        <nav class="nav nav-pills mb-2">
+            <a class="nav-link" href="#" v-for="filter in filters" :key="filter"
+                :class="{ active: filter === activeFilter }" @click="activeFilter = filter">
+                {{ filter }}
+            </a>
+        </nav>
+        <ul class="list-group mb-2">
+            <transition-group name="list">
+                <li class="list-group-item" v-for="(todo, index) in filteredTodos" :key="todo.id">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" :id="'todo' + index" v-model="todo.done" />
+                        <label class="form-check-label" :for="'todo' + index" :class="{ done: todo.done }">
+                            {{ todo.title }}
+                            <br />
+                            <small>{{todo.created | friendly-date}}</small>
+                        </label>
+                    </div>
+                </li>
+            </transition-group>
+        </ul>
+        <add-item @submitted="addTodo($event)"></add-item>
+        <remaining-items :remaining="notDoneCount">
+            <template v-slot:success>Excellent!!! Enjoy your day!!!</template>
+            <template v-slot:danger>Run run run</template>
+        </remaining-items>
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>
