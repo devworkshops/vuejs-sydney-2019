@@ -3,27 +3,20 @@
     <b-navbar-brand href="#">Northwind Traders</b-navbar-brand>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-    <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav v-if="isLoggedIn">
-        <router-link to="/" tag="li" :exact="true" class="nav-item" active-class="active">
-          <a class="nav-link">Home</a>
-        </router-link>
-        <router-link to="/about" tag="li" class="nav-item" active-class="active">
-          <a class="nav-link">About</a>
-        </router-link>
-        <router-link to="/suppliers" tag="li" class="nav-item" active-class="active">
-          <a class="nav-link">Suppliers</a>
-        </router-link>
-        <router-link to="/categories" tag="li" class="nav-item" active-class="active">
-          <a class="nav-link">Categories</a>
-        </router-link>
-        <router-link to="/products" tag="li" class="nav-item" active-class="active">
-          <a class="nav-link">Products</a>
-        </router-link>
-        <b-nav-item @click="logout()">Logout</b-nav-item>
+    <b-collapse is-nav id="navbarCollapse">
+      <b-navbar-nav class="mr-auto" v-if="isLoggedIn">
+        <b-nav-item to="/" :exact="true">Home</b-nav-item>
+        <b-nav-item to="/suppliers">Suppliers</b-nav-item>
+        <b-nav-item to="/categories">Categories</b-nav-item>
+        <b-nav-item to="/products">Products</b-nav-item>
       </b-navbar-nav>
-      <b-navbar-nav v-else>
-        <b-nav-item to="/login">Login</b-nav-item>
+      <b-navbar-nav>
+        <b-nav-item to="/login" v-if="!isLoggedIn">Login</b-nav-item>
+        <b-nav-item @click="logout()" v-if="isLoggedIn">Logout</b-nav-item>
+        <b-nav-item v-if="isLoggedIn" v-b-toggle.collapseNotifications>
+          Notifications
+          <b-badge>{{ $store.getters.notificationCount }}</b-badge>
+        </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>

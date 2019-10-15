@@ -70,6 +70,7 @@
 
 <script>
 import { CategoriesService } from "@/services/NorthwindService.js";
+import { mapActions } from "vuex";
 
 export default {
   data() {
@@ -93,10 +94,15 @@ export default {
     this.fetchAll();
   },
   methods: {
+    ...mapActions(["raiseSuccessNotification", "raiseErrorNotification"]),
     fetchAll() {
       CategoriesService.getAll()
         .then(result => (this.categories = result.data))
-        .catch(error => console.error(error));
+        .catch(() => {
+          this.raiseErrorNotification(
+            "A server error occurred attempting to get all categories."
+          );
+        });
     },
     validate(category) {
       this.errors = {};
@@ -164,9 +170,18 @@ export default {
         )
         .then(value => {
           if (value) {
-            CategoriesService.delete(id).then(
-              () => (this.categories = this.categories.filter(d => d.id != id))
-            );
+            CategoriesService.delete(id)
+              .then(() => {
+                this.categories = this.categories.filter(c => c.id !== id);
+                this.raiseSuccessNotification(
+                  `The category was successfully deleted.`
+                );
+              })
+              .catch(() => {
+                this.raiseErrorNotification(
+                  `A server error occurred attempting to delete the category.`
+                );
+              });
           }
         });
     },

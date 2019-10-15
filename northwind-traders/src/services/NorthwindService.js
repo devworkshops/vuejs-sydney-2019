@@ -20,7 +20,7 @@ apiClient.interceptors.request.use(
         }
         return config
     },
-    err => {
+    () => {
         NProgress.done()
     }
 )

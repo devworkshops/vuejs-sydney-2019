@@ -52,7 +52,7 @@ export default {
     save() {
       if (this.id) {
         SuppliersService.update(this.model)
-          .then(r => this.navigateBack())
+          .then(() => this.navigateBack())
           .catch(err => {
             if (err.response.status == 422) {
               this.errors = err.response.data.errors;
@@ -60,7 +60,7 @@ export default {
           });
       } else {
         SuppliersService.create(this.model)
-          .then(r => this.navigateBack())
+          .then(() => this.navigateBack())
           .catch(err => console.error(err));
       }
     },

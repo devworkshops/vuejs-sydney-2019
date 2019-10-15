@@ -11,7 +11,7 @@
         <i class="fas fa-plus"></i>
       </router-link>
     </div>
-    <b-table striped hover :items="suppliers" :fields="fields">
+    <b-table striped hover :items="$store.state.supplier.suppliers" :fields="fields">
       <template v-slot:cell(actions)="data">
         <router-link
           tag="button"
@@ -26,19 +26,14 @@
 </template>
 
 <script>
-import { SuppliersService } from "@/services/NorthwindService.js";
-
 export default {
   data() {
     return {
       fields: ["companyName", "contactName", "contactTitle", "actions"],
-      suppliers: []
     };
   },
   created() {
-    SuppliersService.getAll()
-      .then(r => (this.suppliers = r.data))
-      .catch(err => console.error(err));
+    this.$store.dispatch('fetchSuppliers')
   }
 };
 </script>
