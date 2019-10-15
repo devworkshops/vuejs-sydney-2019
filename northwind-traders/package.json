@@ -6,8 +6,12 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
+    "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
-    "mock-api": "json-server db.json --watch"
+    "mock-api": "json-server db.json --watch",
+    "test:e2e:headless": "vue-cli-service test:e2e --headless",
+    "json-server": "json-server db.json --port 3000",
+    "test:e2e:ci": "npm-run-all -p -r json-server test:e2e:headless"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.11.2",
@@ -16,12 +20,14 @@
     "bootstrap-vue": "^2.0.4",
     "core-js": "^2.6.5",
     "json-server": "^0.15.1",
+    "npm-run-all": "^4.1.5",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vuelidate": "^0.7.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.0",
+    "@vue/cli-plugin-e2e-cypress": "^3.12.0",
     "@vue/cli-plugin-eslint": "^3.12.0",
     "@vue/cli-plugin-unit-jest": "^3.12.0",
     "@vue/cli-service": "^3.12.0",
